@@ -1,0 +1,5 @@
+var mines = {};
+
+module.exports = {
+
+};

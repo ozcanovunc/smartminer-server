@@ -1,0 +1,26 @@
+{
+  "name": "smartminer-server",
+  "version": "1.0.0",
+  "description": "Server side of Smartface hackathon project '17",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ozcanovunc/smartminer-server.git"
+  },
+  "author": "Ozcan Ovunc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ozcanovunc/smartminer-server/issues"
+  },
+  "homepage": "https://github.com/ozcanovunc/smartminer-server#readme",
+  "dependencies": {
+    "chance": "^1.0.12",
+    "sillyname": "^0.1.0",
+    "ws": "^3.3.2"
+  }
+}
