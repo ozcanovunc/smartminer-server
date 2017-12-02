@@ -1,38 +1,38 @@
-const util = require("../util");
 const constants = require("../constants");
 const logger = require("../logger/index");
-const generateRandomName = util.generateRandomName;
 const send = require("./sender").send;
+const User = require("../User");
+const GameService = require("./game");
 
 var users = {};
 
 module.exports = {
-    register: function register(ws, id, name) {
-        if (!ws) {
-            return logger.error(constants.SERVICE.USER, `WebSocket must be provided`);
-        }
-        if (!id) {
-            return logger.error(constants.SERVICE.USER, `Client must provide id when registering`);
-        }
-        name = name || generateRandomName();
-        var user = {
-            id: id,
-            name: name,
-            score: 0,
-            position: {
-                top: constants.USER.TOP_POSITION,
-                left: constants.USER.LEFT_POSITION
-            }
-        };
-        users[id] = user;
+    register: function register(ws, name) {
+        var user = new User(ws, name);
+        var userID = user.id;
+        users[userID] = user;
 
-        send({
+        send(ws, {
             type: constants.COMMANDS.REGISTER_USER,
-            ws: ws,
-            user: user
+            user: {
+                id: user.id,
+                name: user.name
+            }
+        });
+
+        ws.on("error", (e) => {
+            this.deregister(userID);
+            return logger.error(constants.SERVICE.INDEX, `ws onError: ${e}`);
+        });
+
+        ws.on("close", (e) => {
+            this.deregister(userID);
+            return logger.log(constants.SERVICE.INDEX, `ws onClose: ${e}`);
         });
     },
     deregister: function deregister(id) {
+        var user = users[id];
+        user && GameService.endGame(user.getGameID());
         delete users[id];
     },
     getAll: function getAll() {
@@ -41,23 +41,19 @@ module.exports = {
     getByID: function getByID(id) {
         var user = users[id];
         if (!user) {
-            logger.error(constants.SERVICE.USER, `User ${id} doesn't exist`);
+            logger.error(constants.SERVICE.USER, `getByID failed, user ${id} doesn't exist`);
         }
         else {
             return user;
         }
     },
-    updatePosition: function updatePosition(id, top, left) {
+    updateState: function updateState(id, state) {
         var user = this.getByID(id);
-        if (!top) {
-            logger.error(constants.SERVICE.USER, `Top positon is missing for user ${id}`);
-        }
-        else if (!left) {
-            logger.error(constants.SERVICE.USER, `Left positon is missing for user ${id}`);
-        }
-        else {
-            user.position.top = top;
-            user.position.left = left;
+        if (user) {
+            user.updateState(state);
+            if (user.getState() === constants.USER.STATE.SEARCHING_FOR_OPPONENT) {
+                GameService.findOpponent(users);
+            }
         }
     }
 };
