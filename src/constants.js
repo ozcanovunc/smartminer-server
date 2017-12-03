@@ -16,7 +16,17 @@ module.exports = {
     USER: {
         POSITION: {
             TOP: 50,
-            LEFT: 50
+            LEFT: 50,
+            LIMITS: {
+                MIN: {
+                    TOP: 0,
+                    LEFT: 0
+                },
+                MAX: {
+                    TOP: 100,
+                    LEFT: 100
+                }
+            }
         },
         STATE: {
             "IDLE": "IDLE",

@@ -39,14 +39,29 @@ module.exports = {
     updatePosition: function updatePosition(gameID, userID, top, left) {
         var game = games[gameID];
         if (!game) {
-            return logger.error(constants.SERVICE.GAME, `updatePosition failed, game ${gameID} doesn't exist`);
+            return logger.error(constants.SERVICE.GAME,
+                `updatePosition failed, game ${gameID} doesn't exist`);
         }
         var user = game[userID];
         if (!user) {
-            return logger.error(constants.SERVICE.GAME, `updatePosition failed, user ${userID} doesn't exist`);
+            return logger.error(constants.SERVICE.GAME,
+                `updatePosition failed, user ${userID} doesn't exist`);
         }
-        if (top < 0 || left < 0) {
-            return logger.error(constants.SERVICE.GAME, `updatePosition failed, top and left must be positive`);
+        if (top < constants.USER.POSITION.LIMITS.MIN.TOP) {
+            return logger.error(constants.SERVICE.GAME,
+                `updatePosition failed, top exceeds minimum limit`);
+        }
+        if (left < constants.USER.POSITION.LIMITS.MIN.LEFT) {
+            return logger.error(constants.SERVICE.GAME,
+                `updatePosition failed, left exceeds minimum limit`);
+        }
+        if (top > constants.USER.POSITION.LIMITS.MAX.TOP) {
+            return logger.error(constants.SERVICE.GAME,
+                `updatePosition failed, top exceeds maximum limit`);
+        }
+        if (left > constants.USER.POSITION.LIMITS.MAX.LEFT) {
+            return logger.error(constants.SERVICE.GAME,
+                `updatePosition failed, left exceeds maximum limit`);
         }
 
         user.updatePosition(top, left);
