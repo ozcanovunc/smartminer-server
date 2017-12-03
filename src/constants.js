@@ -9,6 +9,7 @@ module.exports = {
     },
     COMMANDS: {
         REGISTER_USER: "registerUser",
+        DEREGISTER_USER: "deregisterUser",
         UPDATE_USER_POSITION: "updateUserPosition",
         UPDATE_USER_STATE: "updateUserState",
         UPDATE_USER_SCORE: "updateUserScore",

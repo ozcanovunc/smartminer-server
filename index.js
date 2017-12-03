@@ -27,6 +27,9 @@ wss.on("connection", function connection(ws) {
             case constants.COMMANDS.REGISTER_USER:
                 UserService.register(ws, message.name);
                 return;
+            case constants.COMMANDS.DEREGISTER_USER:
+                UserService.deregister(message.userID);
+                return;
             case constants.COMMANDS.UPDATE_USER_POSITION:
                 GameService.updatePosition(message.gameID, message.userID, message.top, message.left);
                 return;

@@ -17,7 +17,8 @@ module.exports = {
             user: {
                 id: user.id,
                 name: user.name,
-                position: user.position
+                position: user.position,
+                score: 0
             }
         });
 
