@@ -52,6 +52,10 @@ User.prototype.getState = function getState() {
     return this.state;
 };
 
+User.prototype.getScore = function getState() {
+    return this.score;
+};
+
 User.prototype.updateScore = function updateScore(score) {
     if (typeof score === "undefined") {
         logger.error(constants.SERVICE.USER, `updateScore failed, score is missing for user ${this.id}`);
@@ -72,6 +76,10 @@ User.prototype.setGameID = function setGameID(gameID) {
 
 User.prototype.getGameID = function getGameID() {
     return this.gameID;
+};
+
+User.prototype.getUserID = function getUserID() {
+    return this.id;
 };
 
 module.exports = User;

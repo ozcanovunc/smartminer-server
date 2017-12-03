@@ -10,5 +10,8 @@ module.exports = {
     },
     generateID: function generateID() {
         return chance.guid();
+    },
+    generateRandomInteger(opts) {
+        return chance.integer(opts);
     }
 };

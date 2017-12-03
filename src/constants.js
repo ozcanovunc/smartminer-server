@@ -11,7 +11,9 @@ module.exports = {
         REGISTER_USER: "registerUser",
         UPDATE_USER_POSITION: "updateUserPosition",
         UPDATE_USER_STATE: "updateUserState",
-        START_GAME: "startGame"
+        UPDATE_USER_SCORE: "updateUserScore",
+        START_GAME: "startGame",
+        UPDATE_MINES: "updateMines"
     },
     USER: {
         POSITION: {
@@ -36,6 +38,11 @@ module.exports = {
     },
     GAME: {
         PLAYERS_IN_ROOM: 2
+    },
+    MINE: {
+        OFFSET: 5,
+        DEFAULT_SCORE: 10,
+        CONCURRENT_MINE: 10
     },
     PORT: process.env.PORT,
     IP: process.env.IP

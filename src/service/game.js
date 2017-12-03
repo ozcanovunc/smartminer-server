@@ -3,6 +3,7 @@ const constants = require("../constants");
 const generateID = util.generateID;
 const send = require("./sender").send;
 const logger = require("../logger/index");
+const MineService = require("./mine");
 
 var games = {};
 
@@ -30,6 +31,8 @@ module.exports = {
                     gameID: gameID,
                     users: getAllUsersInRoom(game)
                 });
+                MineService.setNotifyAll(this.notifyAll);
+                MineService.generateMines(gameID);
             }
         }
     },
@@ -65,6 +68,8 @@ module.exports = {
         }
 
         user.updatePosition(top, left);
+        MineService.setNotifyAll(this.notifyAll);
+        MineService.checkUserCaughtMine(user, top, left);
 
         this.notifyAll(gameID, {
             type: constants.COMMANDS.UPDATE_USER_POSITION,
