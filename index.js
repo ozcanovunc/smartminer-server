@@ -2,6 +2,7 @@ const WebSocket = require("ws");
 const WebSocketServer = WebSocket.Server;
 const UserService = require("./src/service/user");
 const GameService = require("./src/service/game");
+const MineService = require("./src/service/mine");
 const logger = require("./src/logger/index");
 const constants = require("./src/constants");
 const wss = new WebSocketServer({
@@ -31,6 +32,9 @@ wss.on("connection", function connection(ws) {
                 return;
             case constants.COMMANDS.UPDATE_USER_STATE:
                 UserService.updateState(message.userID, message.state);
+                return;
+            case constants.COMMANDS.UPDATE_MINES:
+                MineService.generateMines(message.gameID);
                 return;
             default:
                 return logger.error(constants.SERVICE.INDEX, `Unexpected message type: ${message.type}`);

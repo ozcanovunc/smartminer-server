@@ -40,7 +40,7 @@ module.exports = {
         PLAYERS_IN_ROOM: 2
     },
     MINE: {
-        OFFSET: 5,
+        OFFSET: 10,
         DEFAULT_SCORE: 10,
         CONCURRENT_MINE: 10
     },

@@ -60,18 +60,14 @@ module.exports = {
     generateMines: function generateMines(gameID) {
         var minesInGame = mines[gameID] || {};
         var mineCount = Object.keys(minesInGame).length;
-        var shouldNotifyAll = false;
         for (var m = mineCount; m < constants.MINE.CONCURRENT_MINE; ++m) {
             this.generateMine(gameID);
-            shouldNotifyAll = true;
         }
-        if (shouldNotifyAll) {
-            var message = {
-                type: constants.COMMANDS.UPDATE_MINES,
-                mines: mines[gameID]
-            };
-            notifyAll(gameID, message);
-        }
+        var message = {
+            type: constants.COMMANDS.UPDATE_MINES,
+            mines: mines[gameID]
+        };
+        notifyAll(gameID, message);
     },
     setNotifyAll: function setNotifyAll(f) {
         notifyAll = f;
