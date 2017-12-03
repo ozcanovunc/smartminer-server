@@ -4,7 +4,9 @@ const chance = new Chance();
 
 module.exports = {
     generateRandomName: function generateRandomName() {
-        return generateName();
+        var name = generateName();
+        name = name.split(" ")[0];
+        return name;
     },
     generateID: function generateID() {
         return chance.guid();

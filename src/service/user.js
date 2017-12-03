@@ -16,7 +16,8 @@ module.exports = {
             type: constants.COMMANDS.REGISTER_USER,
             user: {
                 id: user.id,
-                name: user.name
+                name: user.name,
+                position: user.position
             }
         });
 

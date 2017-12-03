@@ -25,10 +25,10 @@ module.exports = {
                     user.updateState(constants.USER.STATE.IN_GAME);
                 }
                 games[gameID] = game;
-
                 this.notifyAll(gameID, {
                     type: constants.COMMANDS.START_GAME,
-                    gameID: gameID
+                    gameID: gameID,
+                    users: getAllUsersInRoom(game)
                 });
             }
         }
@@ -45,6 +45,9 @@ module.exports = {
         if (!user) {
             return logger.error(constants.SERVICE.GAME, `updatePosition failed, user ${userID} doesn't exist`);
         }
+        if (top < 0 || left < 0) {
+            return logger.error(constants.SERVICE.GAME, `updatePosition failed, top and left must be positive`);
+        }
 
         user.updatePosition(top, left);
 
@@ -57,7 +60,7 @@ module.exports = {
     notifyAll: function notifyAll(gameID, message) {
         var game = games[gameID];
         if (!game) {
-            return logger.error(constants.SERVICE.GAME, `updatePosition failed, game ${gameID} doesn't exist`);
+            return logger.error(constants.SERVICE.GAME, `notifyAll failed, game ${gameID} doesn't exist`);
         }
         for (var userID in game) {
             var user = game[userID];
@@ -66,3 +69,21 @@ module.exports = {
         }
     }
 };
+
+function getAllUsersInRoom(game) {
+    var users = [];
+    var userIDs = Object.keys(game);
+    users.push({
+        name: game[userIDs[0]].name,
+        id: game[userIDs[0]].id,
+        position: game[userIDs[0]].position,
+        score: game[userIDs[0]].score,
+    });
+    users.push({
+        name: game[userIDs[1]].name,
+        id: game[userIDs[1]].id,
+        position: game[userIDs[1]].position,
+        score: game[userIDs[1]].score,
+    });
+    return users;
+}
